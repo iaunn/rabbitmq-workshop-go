@@ -23,8 +23,15 @@ func main() {
 
 	failOnError(err, "Failed to declare a queue")
 
+	err = ch.Qos(
+		100,     // prefetch count
+		0,     // prefetch size
+		false, // global
+	)
+	failOnError(err, "Failed to set QoS")
+
 	msgs, err := ch.Consume(
-		"api-event", // queue
+		"event", // queue
 		"go-worker",     // consumer
 		true,   // auto-ack
 		false,  // exclusive
